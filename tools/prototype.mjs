@@ -1,9 +1,12 @@
 Object.defineProperty(Array.prototype, "log", {
     value(name) {
-        console.log(name, this);
+        name
+            ? console.log(name, this)
+            : console.log(this);
         return this;
     },
 });
+
 Object.defineProperty(Array.prototype, "sum", {
     value(name) {
         return this.reduce((x, y) => x + y, 0);
