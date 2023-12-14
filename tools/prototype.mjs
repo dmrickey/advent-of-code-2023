@@ -4,3 +4,8 @@ Object.defineProperty(Array.prototype, "log", {
         return this;
     },
 });
+Object.defineProperty(Array.prototype, "sum", {
+    value(name) {
+        return this.reduce((x, y) => x + y, 0);
+    },
+});
