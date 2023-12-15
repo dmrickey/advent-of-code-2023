@@ -74,8 +74,6 @@ export default () => {
         return mapping;
     }
 
-    const seeds = contents[0].split(': ')[1].split(' ').map(x => +x);
-
     const seedToSoil = createMapping('seed-to-soil');
     const soilToFertilizer = createMapping('soil-to-fertilizer');
     const fertilizerToWater = createMapping('fertilizer-to-water');
@@ -85,15 +83,16 @@ export default () => {
     const humidityToLocation = createMapping('humidity-to-location');
 
     const part1 = () => {
+        const seeds = contents[0].split(': ')[1].split(' ').map(x => +x);
         const seedValues = seeds.map((seed) =>
             humidityToLocation.getDestinationMapping(
                 temperatureToHumidity.getDestinationMapping(
                     lightToTemperature.getDestinationMapping(
-                        waterToLight.getDestinationMapping(fertilizerToWater.getDestinationMapping(
-                            soilToFertilizer.getDestinationMapping(
-                                seedToSoil.getDestinationMapping(seed)
-                            )
-                        ))))));
+                        waterToLight.getDestinationMapping(
+                            fertilizerToWater.getDestinationMapping(
+                                soilToFertilizer.getDestinationMapping(
+                                    seedToSoil.getDestinationMapping(seed)
+                                )))))));
 
         const answer = Math.min(...seedValues);
         console.log('day 5 part 1:', answer);
@@ -102,10 +101,35 @@ export default () => {
     // test output - 35
     // answer - 173706076 
 
+    // does not work
     const part2 = () => {
+        const seedNumbers = contents[0].split(': ')[1].split(' ').map(x => +x);
+        const seedValues = []
+
+        for (let i = 0; i < seedNumbers.length; i += 2) {
+            const seeds = [];
+            const seedStart = seedNumbers[i];
+            const seedRange = seedNumbers[i + 1];
+            for (let j = 0; j < seedRange; j++) {
+                seeds.push(j + seedStart);
+            }
+            const value = seeds.map((seed) =>
+                humidityToLocation.getDestinationMapping(
+                    temperatureToHumidity.getDestinationMapping(
+                        lightToTemperature.getDestinationMapping(
+                            waterToLight.getDestinationMapping(
+                                fertilizerToWater.getDestinationMapping(
+                                    soilToFertilizer.getDestinationMapping(
+                                        seedToSoil.getDestinationMapping(seed)
+                                    )
+                                ))))));
+            seedValues.push(value);
+        }
+
+        const answer = Math.min(...seedValues);
         console.log('day 5 part 2:', answer);
     }
-    // part2();
-    // test output - 
+    part2();
+    // test output - 46
     // answer - 
 };
