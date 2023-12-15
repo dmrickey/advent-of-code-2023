@@ -9,5 +9,5 @@ import { truthiness } from './truthiness.mjs';
 
 export function getFileContents(file) {
     const allContents = readFileSync(file, 'utf-8');
-    return allContents.split(/\r?\n/).filter(truthiness);
+    return allContents.split(/\r?\n/);
 }
