@@ -8,13 +8,13 @@ export default () => {
         console.log('day 9 part 1:', answer);
     }
     // part1();
-    // test output - 6440
-    // answer - 247823654
+    // test output - 
+    // answer - 
 
     const part2 = () => {
         console.log('day 9 part 2:', answer);
     }
     // part2();
-    // test output - 5905
-    // answer - 245461700
+    // test output - 
+    // answer - 
 };
