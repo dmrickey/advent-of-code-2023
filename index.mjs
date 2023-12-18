@@ -19,5 +19,8 @@ import './tools/prototype.mjs';
 // import day6 from './day-06/day-06.mjs';
 // day6();
 
-import day7 from './day-07/day-07.mjs';
-day7();
+// import day7 from './day-07/day-07.mjs';
+// day7();
+
+import day8 from './day-08/day-08.mjs';
+day8();
