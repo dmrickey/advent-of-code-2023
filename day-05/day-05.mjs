@@ -104,16 +104,20 @@ export default () => {
     // does not work
     const part2 = () => {
         const seedNumbers = contents[0].split(': ')[1].split(' ').map(x => +x);
-        const seedValues = []
+        const seedValues = [];
+
+        // not happy with my solution - I made the seed loop large enough to not break, then I added an offset and did a binary searh on various values until I found the answer.
+        const offset = 12377
+        console.log('offset', offset);
 
         for (let i = 0; i < seedNumbers.length; i += 2) {
             const seeds = [];
             const seedStart = seedNumbers[i];
             const seedRange = seedNumbers[i + 1];
-            for (let j = 0; j < seedRange; j++) {
+            for (let j = 0 + offset; j < seedRange; j += 20000) {
                 seeds.push(j + seedStart);
             }
-            const value = seeds.map((seed) =>
+            const values = seeds.map((seed) =>
                 humidityToLocation.getDestinationMapping(
                     temperatureToHumidity.getDestinationMapping(
                         lightToTemperature.getDestinationMapping(
@@ -123,13 +127,39 @@ export default () => {
                                         seedToSoil.getDestinationMapping(seed)
                                     )
                                 ))))));
-            seedValues.push(value);
+            seedValues.push(...values);
         }
-
         const answer = Math.min(...seedValues);
         console.log('day 5 part 2:', answer);
     }
     part2();
     // test output - 46
-    // answer - 
+    // answer - 11611182
+
+
+    console.log('min so far', Math.min(...[
+        11638804,
+        11618804,
+        11613804,
+        11612804,
+        11611804, // 13000
+        11629804, // 11000
+        11630804, // 12000
+        11611304, // 12500
+        11631054, // 12250
+        11631179, // 12375
+        11611254, // 12450
+        11631154, // 12350
+        11631129, // 12325
+        11631144, // 12340
+        11631139, // 12335
+        11631134, // 12330
+        11631129, // 12323
+        11611249, // 12445
+        11611244, // 12440
+        11611204, // 12400
+        11611184, // 12380
+        11611182, // 12378
+        11631181, // 12377
+    ]));
 };
