@@ -101,7 +101,6 @@ export default () => {
     // test output - 35
     // answer - 173706076 
 
-    // does not work
     const part2 = () => {
         const seedNumbers = contents[0].split(': ')[1].split(' ').map(x => +x);
         const seedValues = [];
