@@ -25,6 +25,15 @@ Object.defineProperty(Number.prototype, "log", {
     },
 });
 
+Object.defineProperty(Object.prototype, "log", {
+    value(name) {
+        name
+            ? console.log(name, this)
+            : console.log(this);
+        return this;
+    },
+});
+
 Object.defineProperty(Array.prototype, "sum", {
     value(name) {
         return this.reduce((x, y) => x + y, 0);
