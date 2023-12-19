@@ -58,4 +58,5 @@ export default () => {
     part2();
     // test output - 71503
     // answer - 40087680
+    console.log('\x1b[36m', 'sometext', '\x1b[0m');
 };

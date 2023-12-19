@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "noImplicitAny": false,
+        "noImplicitOverride": true,
+        "strict": true,
+        "strictNullChecks": false,
+        "lib": [
+            "es2022",
+            "DOM"
+        ],
+        "target": "ES2015",
+    },
+    "include": [
+        "**/*",
+        "tools/**/*"
+    ]
+}
