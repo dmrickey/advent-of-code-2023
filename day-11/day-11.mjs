@@ -8,16 +8,24 @@ export default () => {
         /** @type {string[][]} */
         #galaxy;
 
-        constructor() {
+        #voidDistance;
+
+        constructor(voidDistance = 2) {
             this.#galaxy = contents.map((row) => row.split(''));
+            this.#voidDistance = voidDistance;
         }
+
+        /** @type {number[]} */
+        voidRows = [];
+        /** @type {number[]} */
+        voidColumns = [];
 
         expand() {
             for (let y = this.#galaxy.length - 1; y >= 0; y--) {
                 const row = this.#galaxy[y];
 
                 if (row.every(c => c === '.')) {
-                    this.#galaxy.splice(y, 0, Array.from('.'.repeat(row.length)));
+                    this.voidRows.push(y);
                 }
             }
 
@@ -25,7 +33,7 @@ export default () => {
                 const isSpace = this.#galaxy.reduce((acc, cur) => acc &&= (cur[x] === '.'), true);
 
                 if (isSpace) {
-                    this.#galaxy.forEach((r) => r.splice(x, 0, '.'));
+                    this.voidColumns.push(x);
                 }
             }
         }
@@ -49,6 +57,34 @@ export default () => {
             }
             return galaxies;
         }
+
+        /** @returns {number} */
+        get totalDistance() {
+            let { galaxies } = this;
+
+            let totalDistance = 0;
+            while (galaxies.length >= 2) {
+                const current = galaxies.shift();
+                galaxies.forEach((g) => {
+                    let dx = Math.abs(current.x - g.x);
+                    this.voidColumns.forEach(x => {
+                        if ((current.x < x && x < g.x) || (g.x < x && x < current.x)) {
+                            dx += this.#voidDistance - 1;
+                        }
+                    });
+
+                    let dy = Math.abs(current.y - g.y);
+                    this.voidRows.forEach(y => {
+                        if ((current.y < y && y < g.y) || (g.y < y && y < current.y)) {
+                            dy += this.#voidDistance - 1;
+                        }
+                    });
+                    totalDistance += dx + dy;
+                });
+            }
+
+            return totalDistance;
+        }
     }
 
     const part1 = () => {
@@ -57,15 +93,7 @@ export default () => {
         chart.expand();
         // chart.logGalaxyChart('Expanded:');
 
-        let { galaxies } = chart;
-
-        let totalDistance = 0;
-        while (galaxies.length >= 2) {
-            const current = galaxies.shift();
-            galaxies.forEach((g) => totalDistance += Math.abs(current.x - g.x) + Math.abs(current.y - g.y));
-        }
-
-        const answer = totalDistance;
+        const answer = chart.totalDistance;
         console.log('day 11 part 1:', answer);
     }
     part1();
@@ -73,9 +101,13 @@ export default () => {
     // answer - 9233514
 
     const part2 = () => {
-        // console.log('day 10 part 2:', answer);
+        const chart = new StarChart(1000000);
+        chart.expand();
+
+        const answer = chart.totalDistance;
+        console.log('day 11 part 1:', answer);
     }
-    // part2();
+    part2();
     // test output - 
-    // answer - 
+    // answer - 363293506944
 };
