@@ -1,13 +1,14 @@
 import { getFileContents } from '../tools/import-file.mjs';
 
 export default () => {
-    const contents = getFileContents('./day-12/.input');
-    // const contents = getFileContents('./day-12/test.input');
+    // const contents = getFileContents('./day-12/.input');
+    const contents = getFileContents('./day-12/test.input');
     // const contents = getFileContents('./day-12/test2.input');
 
     /**
      * @param {string} data 
      * @param {number[]} values 
+     * @returns {string[]}
      */
     const allArrangements = (data, values) => {
         const length = data.length;
@@ -15,25 +16,30 @@ export default () => {
         const golden = values.map(x => Array.from('#'.repeat(x)).join('')).join('.');
 
         const diff = length - minimum;
-        let output = [golden];
+        /** @type {{[key: string]: string}} */
+        let output = { [golden]: '' };
         for (let i = 0; i < diff; i++) {
             const temp = output;
-            output = [];
-            for (var word of temp) {
-                output.push(`.${word}`);
-                output.push(`${word}.`);
-                word.split('').forEach((c, i) => {
+            output = {};
+            for (var word of Object.keys(temp)) {
+                output[`.${word}`] = '';
+                output[`${word}.`] = '';
+                for (let i = 0; i < word.split('').length; i++) {
                     const tempWord = word.split('');
+                    const c = tempWord[i];
                     if (c === '.') {
+                        while (tempWord[i + 1] === '.') {
+                            i++;
+                        }
                         tempWord.splice(i, 0, '.');
-                        output.push(tempWord.join(''));
+                        output[tempWord.join('')] = '';
                     }
-                });
-                output = [...new Set(output)];
+
+                }
             }
         }
 
-        return output;
+        return Object.keys(output);
     }
 
     /**
@@ -60,7 +66,6 @@ export default () => {
             answer += calculateRow(str, counts).length;
         });
 
-        // const answer = contents.map(calculateRow).flatMap(x => x).length;
         console.log('day 11 part 1:', answer);
     }
     part1();
@@ -70,12 +75,19 @@ export default () => {
     const part2 = () => {
         console.log('  PART 2');
 
+        let answer = 0;
+        contents.forEach(row => {
+            const [str, nums] = row.split(' ');
+            const counts = nums.split(',').map(x => +x);
 
+            const str2 = Array.from(str.repeat(5)).join('?');
+            const counts2 = [...Array(5).keys()].map(x => counts).flatMap(x => x);
+            answer += calculateRow(str2, counts2).length;
+        });
 
-
-        // console.log('day 11 part 1:', answer);
+        console.log('day 11 part 1:', answer);
     }
-    // part2();
+    part2();
     // test output - 
-    // answer - 363293506944
+    // answer - 
 };
