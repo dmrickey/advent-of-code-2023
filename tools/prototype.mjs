@@ -1,5 +1,6 @@
 Object.defineProperty(Array.prototype, "log", {
     value(name) {
+        if (name === false) return this;
         name
             ? console.log(name, this)
             : console.log(this);
@@ -7,30 +8,15 @@ Object.defineProperty(Array.prototype, "log", {
     },
 });
 
-Object.defineProperty(String.prototype, "log", {
-    value(name) {
-        name
-            ? console.log(name, this)
-            : console.log(this);
-        return this;
-    },
-});
-
-Object.defineProperty(Number.prototype, "log", {
-    value(name) {
-        name
-            ? console.log(name, this)
-            : console.log(this);
-        return this;
-    },
-});
-
-Object.defineProperty(Object.prototype, "log", {
-    value(name) {
-        name
-            ? console.log(name, this)
-            : console.log(this);
-        return this;
+Object.defineProperty(Array.prototype, 'multiIndexOf', {
+    value(el) {
+        var idxs = [];
+        for (var i = this.length - 1; i >= 0; i--) {
+            if (this[i] === el) {
+                idxs.unshift(i);
+            }
+        }
+        return idxs;
     },
 });
 
