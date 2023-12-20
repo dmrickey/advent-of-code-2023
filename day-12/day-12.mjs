@@ -66,7 +66,7 @@ export default () => {
             answer += calculateRow(str, counts).length;
         });
 
-        console.log('day 11 part 1:', answer);
+        console.log('day 12 part 1:', answer);
     }
     part1();
     // test output - 21
@@ -85,7 +85,7 @@ export default () => {
             answer += calculateRow(str2, counts2).length;
         });
 
-        console.log('day 11 part 1:', answer);
+        console.log('day 12 part 1:', answer);
     }
     part2();
     // test output - 
